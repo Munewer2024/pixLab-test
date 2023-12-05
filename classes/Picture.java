@@ -1,3 +1,5 @@
+package classes;
+
 import java.awt.*;
 import java.awt.font.*;
 import java.awt.geom.*;
@@ -95,6 +97,32 @@ public class Picture extends SimplePicture
       {
         pixelObj.setBlue(0);
       }
+    }
+  }
+  
+  public int getCountGreenOverValue(int value) {
+    Pixel[][] pixels = this.getPixels2D();
+    int count = 0;
+    for (Pixel[] rowArray : pixels) {
+        for (Pixel pixelObj : rowArray) {
+            if (pixelObj.getGreen() > value) {
+                count++;
+            }
+        }
+    }
+    return count;
+  }
+  
+  public void setBlueToHalfValueInBottomHalf() {
+    Pixel[][] pixels = this.getPixels2D();
+    Pixel pixelObj = null;
+    int height = pixels.length;
+    for (int row = height / 2; row < height; row++) {
+        for (int col = 0; col < pixels[0].length; col++) {
+            pixelObj = pixels[row][col];
+            int blue = pixelObj.getBlue() / 2;
+            pixelObj.setBlue(blue);
+        }
     }
   }
   
@@ -223,10 +251,11 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("beach.jpg");
+    Picture beach = new Picture("images/beach.jpg");
     beach.explore();
-    beach.zeroBlue();
+    beach.setBlueToHalfValueInBottomHalf();
     beach.explore();
+    System.out.println(beach.getCountGreenOverValue(212));
   }
   
 } // this } is the end of class Picture, put all new methods before this
